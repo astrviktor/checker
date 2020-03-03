@@ -74,12 +74,12 @@ class checker
         
         if ($strlen == 0)
         {
-            return ['answer' => "400 Bad Request", 'info' => 'Указана пустая строка'];
+            return ['answer' => 400, 'info' => 'Указана пустая строка'];
         }
 
         if ($len != $strlen)
         {
-            return ['answer' => "400 Bad Request", 'info' => 'Указана длинна ' . $len . ' на самом деле ' . $strlen];
+            return ['answer' => 400, 'info' => 'Указана длинна ' . $len . ' на самом деле ' . $strlen];
         }
 
         $checkstr = substr(strrchr($str, "="), 1);
@@ -94,12 +94,12 @@ class checker
             if ($char == ')') $res--;
             if ($res < 0) 
             {
-                return ['answer' => "400 Bad Request", 
+                return ['answer' => 400, 
                         'info' => 'Скобочная структура ' . $checkstr . ' сломана на позиции ' . $idx];
             }
         }
 
-        return ['answer' => "200 OK", 'info' => 'Все хорошо c ' . $checkstr];
+        return ['answer' => 200, 'info' => 'Все хорошо c ' . $checkstr];
     }
   
 }
