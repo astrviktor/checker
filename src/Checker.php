@@ -99,7 +99,45 @@ class checker
             }
         }
 
+        if ($res != 0) {
+            return ['answer' => 400, 
+            'info' => $checkstr . ' не хватает ' . $res . ' закрывающих скобок'];            
+        }
+
         return ['answer' => 200, 'info' => 'Все хорошо c ' . $checkstr];
     }
-  
+
+    public function checkParenthesisPOSTandSERVER($post, $server)
+    {
+
+        if (!isset($post['string']))
+        {   
+            http_response_code(400);
+            echo 'Строка не получена' . PHP_EOL;
+            return;
+        }
+
+        if (!isset($server['HTTP_CONTENT_LENGTH']))
+        {
+            http_response_code(400);
+            echo 'HTTP_CONTENT_LENGTH не указана' . PHP_EOL;
+            return;
+        }
+
+        if (!is_numeric($server['HTTP_CONTENT_LENGTH']))
+        {
+            http_response_code(400);
+            echo 'HTTP_CONTENT_LENGTH не число' . PHP_EOL;
+            return;
+        }
+
+        $str = 'string=' . $post['string'];
+        $len = $server['HTTP_CONTENT_LENGTH'];
+
+        $res = $this->checkParenthesis($len, $str);
+
+        http_response_code($res['answer']);
+        echo $res['info'] . PHP_EOL;
+    }
+ 
 }
